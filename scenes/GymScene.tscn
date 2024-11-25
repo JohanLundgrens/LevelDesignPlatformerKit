@@ -1,0 +1,326 @@
+[gd_scene load_steps=28 format=3 uid="uid://2gdg7wj1syv4"]
+
+[ext_resource type="Environment" uid="uid://bqnqgflivjvue" path="res://scenes/main-environment.tres" id="1_72e4o"]
+[ext_resource type="PackedScene" uid="uid://dl2ed4gkybggf" path="res://objects/player.tscn" id="2_julub"]
+[ext_resource type="Script" path="res://scripts/view.gd" id="3_qs1q4"]
+[ext_resource type="PackedScene" uid="uid://bpharv43ulngb" path="res://objects/platform_moving.tscn" id="4_2sy40"]
+[ext_resource type="PackedScene" uid="uid://bdm3quh21j64k" path="res://objects/platform_large.tscn" id="5_8rnni"]
+[ext_resource type="PackedScene" uid="uid://d1p2gvrglw6ur" path="res://objects/Crusher.tscn" id="5_lh13s"]
+[ext_resource type="PackedScene" uid="uid://bs65o07otxbmm" path="res://objects/moving_object_path_3d.tscn" id="6_i7mju"]
+[ext_resource type="PackedScene" uid="uid://dvva4xivfg0e3" path="res://objects/ToxicCloud.tscn" id="9_b3dgl"]
+[ext_resource type="PackedScene" uid="uid://cxea8lmw7cy1l" path="res://objects/player_kill_volume.tscn" id="11_gk75s"]
+[ext_resource type="PackedScene" uid="uid://f7y66x8usyt6" path="res://objects/pusher.tscn" id="13_0os3i"]
+[ext_resource type="Script" path="res://scripts/hud.gd" id="19_6aoku"]
+[ext_resource type="Texture2D" uid="uid://cd7oyc56ehkx1" path="res://sprites/coin.png" id="20_1naii"]
+[ext_resource type="LabelSettings" uid="uid://daohhjonjrdx8" path="res://themes/label_settings.tres" id="21_5b0ia"]
+[ext_resource type="FontFile" uid="uid://d0cxd77jybrcn" path="res://fonts/lilita_one_regular.ttf" id="22_f6iy1"]
+[ext_resource type="Theme" uid="uid://d3avl0mr4r87l" path="res://themes/default_theme.tres" id="23_triyp"]
+[ext_resource type="Texture2D" uid="uid://dm50aa4qogm65" path="res://sprites/button_rectangle_depth_gloss.png" id="24_ruehc"]
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_5kmfn"]
+auto_exposure_scale = 0.75
+dof_blur_far_distance = 0.01
+
+[sub_resource type="Curve3D" id="Curve3D_m00qk"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -5, 0, 0, 0, 0, 0, 0, 0, 0, -10, 0, 0),
+"tilts": PackedFloat32Array(0, 0)
+}
+point_count = 2
+
+[sub_resource type="Curve3D" id="Curve3D_ov0ws"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -15, 1.26208, 0, 0, 0, 0, 0, 0, 0, -14.9908, 1.38557, -4.98862),
+"tilts": PackedFloat32Array(0, 0)
+}
+point_count = 2
+
+[sub_resource type="Curve3D" id="Curve3D_0jqd2"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 0, 2, -14, 0, 0, 0, 0, 0, 0, 0, 6, -14),
+"tilts": PackedFloat32Array(0, 0)
+}
+point_count = 2
+
+[sub_resource type="Curve3D" id="Curve3D_n87sb"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -30, 3, 0, 0, 0, 0, 0, 0, 0, -30, 0, 0),
+"tilts": PackedFloat32Array(0, 0)
+}
+point_count = 2
+
+[sub_resource type="BoxMesh" id="BoxMesh_qayao"]
+size = Vector3(3, 1.5, 0.2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xrow6"]
+albedo_color = Color(0.719454, 2.55093e-06, 5.77569e-07, 1)
+emission_enabled = true
+emission = Color(0.713726, 0, 0, 1)
+emission_energy_multiplier = 16.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_0ek5e"]
+font = ExtResource("22_f6iy1")
+font_size = 128
+shadow_color = Color(0, 0, 0, 0.376471)
+shadow_offset = Vector2(2, 2)
+
+[sub_resource type="LabelSettings" id="LabelSettings_gqd63"]
+font = ExtResource("22_f6iy1")
+font_size = 32
+shadow_color = Color(0, 0, 0, 0.376471)
+shadow_offset = Vector2(2, 2)
+
+[sub_resource type="LabelSettings" id="LabelSettings_hk8xo"]
+font = ExtResource("22_f6iy1")
+font_size = 42
+shadow_color = Color(0, 0, 0, 0.376471)
+shadow_offset = Vector2(2, 2)
+
+[sub_resource type="BoxMesh" id="BoxMesh_arqjs"]
+
+[node name="Main" type="Node3D"]
+
+[node name="Environment" type="WorldEnvironment" parent="."]
+unique_name_in_owner = true
+environment = ExtResource("1_72e4o")
+camera_attributes = SubResource("CameraAttributesPractical_5kmfn")
+
+[node name="Player" parent="." node_paths=PackedStringArray("view") instance=ExtResource("2_julub")]
+transform = Transform3D(-0.436802, 0, -0.899558, 0, 1, 0, 0.899558, 0, -0.436802, 0, 1.86931, 0.129732)
+view = NodePath("../View")
+
+[node name="View" type="Node3D" parent="." node_paths=PackedStringArray("target") groups=["View"]]
+process_mode = 3
+transform = Transform3D(0.707107, -0.298836, 0.640856, 0, 0.906308, 0.422618, -0.707107, -0.298836, 0.640856, 0, 0, 0)
+script = ExtResource("3_qs1q4")
+target = NodePath("../Player")
+
+[node name="Camera" type="Camera3D" parent="View"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10)
+current = true
+fov = 40.0
+
+[node name="World" type="Node3D" parent="."]
+
+[node name="Crusher" parent="World" instance=ExtResource("5_lh13s")]
+transform = Transform3D(-4.37114e-08, -1, 4.37114e-08, 0, -4.37114e-08, -1, 1, -4.37114e-08, 1.91069e-15, -29.999, 2, -0.004)
+
+[node name="Platforms" type="Node" parent="World"]
+
+[node name="platform-large" parent="World/Platforms" instance=ExtResource("5_8rnni")]
+transform = Transform3D(1, 0, 0, 0, 10, 0, 0, 0, 1, 0, -5, 0)
+
+[node name="platform-large5" parent="World/Platforms" instance=ExtResource("5_8rnni")]
+transform = Transform3D(1, 0, 0, 0, 10, 0, 0, 0, 1, 0, -4, -5)
+
+[node name="platform-large6" parent="World/Platforms" instance=ExtResource("5_8rnni")]
+transform = Transform3D(1, 0, 0, 0, 10, 0, 0, 0, 1, 0, -3, -10)
+
+[node name="platform-large7" parent="World/Platforms" instance=ExtResource("5_8rnni")]
+transform = Transform3D(1, 0, 0, 0, 10, 0, 0, 0, 1, 0, 0.326671, -18.8713)
+
+[node name="platform-large11" parent="World/Platforms" instance=ExtResource("5_8rnni")]
+transform = Transform3D(1, 0, 0, 0, 10, 0, 0, 0, 1, -19.8007, -3, -10.709)
+
+[node name="platform-large12" parent="World/Platforms" instance=ExtResource("5_8rnni")]
+transform = Transform3D(1, 0, 0, 0, 10, 0, 0, 0, 1, -19.8007, -7.81854, -10.709)
+
+[node name="platform-large8" parent="World/Platforms" instance=ExtResource("5_8rnni")]
+transform = Transform3D(0.463582, 0, -0.187328, 0, 2, 0, 0.187328, 0, 0.463582, -6.33958, 4.32667, -19.7702)
+
+[node name="platform-large13" parent="World/Platforms" instance=ExtResource("5_8rnni")]
+transform = Transform3D(0.439217, 0, 0.238932, 0, 2, 0, -0.238932, 0, 0.439217, -16.5422, 4.32667, -18.109)
+
+[node name="platform-large10" parent="World/Platforms" instance=ExtResource("5_8rnni")]
+transform = Transform3D(0.5, 0, 0, 0, 2, 0, 0, 0, 0.5, 0, 2.82667, -21.5309)
+
+[node name="platform-large9" parent="World/Platforms" instance=ExtResource("5_8rnni")]
+transform = Transform3D(0.489351, 0, 0.102641, 0, 2, 0, -0.102641, 0, 0.489351, -11.2882, 4.32667, -19.9902)
+
+[node name="platform-large2" parent="World/Platforms" instance=ExtResource("5_8rnni")]
+transform = Transform3D(1, 0, 0, 0, 10, 0, 0, 0, 1, -15, -5, 0)
+
+[node name="platform-large3" parent="World/Platforms" instance=ExtResource("5_8rnni")]
+transform = Transform3D(1, 0, 0, 0, 10, 0, 0, 0, 1, -20.647, -5, 0)
+
+[node name="platform-large4" parent="World/Platforms" instance=ExtResource("5_8rnni")]
+transform = Transform3D(2, 0, 0, 0, 10, 0, 0, 0, 1, -30.2519, -5.02371, 0)
+
+[node name="platform-large14" parent="World/Platforms" instance=ExtResource("5_8rnni")]
+transform = Transform3D(2, 0, 0, 0, 10, 0, 0, 0, 1, -30, 3.09591, 0)
+
+[node name="Node3D" parent="World/Platforms" instance=ExtResource("9_b3dgl")]
+transform = Transform3D(0.5, 0, 0, 0, 10, 0, 0, 0, 0.5, -19.4356, 0.552548, -10.748)
+
+[node name="Scripts" type="Node" parent="World"]
+
+[node name="moving_object_path" parent="World/Scripts" node_paths=PackedStringArray("object_to_move") instance=ExtResource("6_i7mju")]
+curve = SubResource("Curve3D_m00qk")
+object_to_move = NodePath("../../Objects/platform-moving")
+ping_pong = true
+
+[node name="moving_object_path2" parent="World/Scripts" node_paths=PackedStringArray("object_to_move") instance=ExtResource("6_i7mju")]
+curve = SubResource("Curve3D_ov0ws")
+object_to_move = NodePath("../../Objects/Pusher")
+movement_speed = 2.0
+ping_pong = true
+
+[node name="player_kill_volume" parent="World/Scripts" instance=ExtResource("11_gk75s")]
+
+[node name="moving_object_path3" parent="World/Scripts" node_paths=PackedStringArray("object_to_move") instance=ExtResource("6_i7mju")]
+curve = SubResource("Curve3D_0jqd2")
+object_to_move = NodePath("../../Objects/platform-moving1")
+ping_pong = true
+
+[node name="moving_object_path4" parent="World/Scripts" node_paths=PackedStringArray("object_to_move") instance=ExtResource("6_i7mju")]
+curve = SubResource("Curve3D_n87sb")
+object_to_move = NodePath("../../Crusher")
+movement_speed = 2.0
+ping_pong = true
+
+[node name="Objects" type="Node" parent="World"]
+
+[node name="platform-moving" parent="World/Objects" instance=ExtResource("4_2sy40")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.51787, -4.76837e-07, 0.20821)
+
+[node name="platform-moving1" parent="World/Objects" instance=ExtResource("4_2sy40")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.57045, -13.8492)
+
+[node name="Pusher" parent="World/Objects" instance=ExtResource("13_0os3i")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 1.04147, 0)
+
+[node name="Art" type="Node" parent="World"]
+
+[node name="Sign" type="MeshInstance3D" parent="World/Art"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -17.2546, 1.04308, -10.5508)
+mesh = SubResource("BoxMesh_qayao")
+skeleton = NodePath("../../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_xrow6")
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.422618, -0.694272, 0.582563, 0, 0.642788, 0.766044, -0.906308, 0.323744, -0.271654, 0, 0, 0)
+shadow_enabled = true
+shadow_opacity = 0.75
+
+[node name="HUD" type="CanvasLayer" parent="." groups=["HUD"]]
+process_mode = 3
+script = ExtResource("19_6aoku")
+
+[node name="Control" type="Control" parent="HUD"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Icon" type="TextureRect" parent="HUD/Control"]
+layout_mode = 0
+offset_left = 57.0
+offset_top = 67.0
+offset_right = 313.0
+offset_bottom = 323.0
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("20_1naii")
+
+[node name="x" type="Label" parent="HUD/Control"]
+layout_mode = 0
+offset_left = 112.0
+offset_top = 64.0
+offset_right = 144.0
+offset_bottom = 123.0
+text = "×"
+label_settings = ExtResource("21_5b0ia")
+
+[node name="Level Complete" type="Label" parent="HUD/Control"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -429.0
+offset_top = 139.0
+offset_right = 429.0
+offset_bottom = 287.0
+grow_horizontal = 2
+text = "Level Complete!"
+label_settings = SubResource("LabelSettings_0ek5e")
+
+[node name="CoinsLabel" type="Label" parent="HUD/Control"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 144.0
+offset_top = 64.0
+offset_right = 368.0
+offset_bottom = 123.0
+text = "0"
+label_settings = ExtResource("21_5b0ia")
+
+[node name="PlayAgainButton" type="Button" parent="HUD/Control"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -196.0
+offset_top = -258.0
+offset_right = 196.0
+offset_bottom = -122.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 0
+theme = ExtResource("23_triyp")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("22_f6iy1")
+theme_override_font_sizes/font_size = 60
+text = "Play Again?"
+icon = ExtResource("24_ruehc")
+flat = true
+icon_alignment = 1
+
+[node name="TimeLabel" type="Label" parent="HUD/Control"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -48.5
+offset_top = 59.0
+offset_right = 48.5
+offset_bottom = 115.0
+grow_horizontal = 2
+text = "00"
+label_settings = SubResource("LabelSettings_gqd63")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TimeNameLabel" type="Label" parent="HUD/Control"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -49.0
+offset_top = 22.0
+offset_right = 49.0
+offset_bottom = 78.0
+grow_horizontal = 2
+text = "TIME"
+label_settings = SubResource("LabelSettings_hk8xo")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(9.28075, 0, 0, 0, 4, 0, 0, 0, 1, -29.9848, 1.18804, 1.78768)
+mesh = SubResource("BoxMesh_arqjs")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(9.28075, 0, 0, 0, 4, 0, 0, 0, 1, -29.9848, 1.18804, -1.85511)
+mesh = SubResource("BoxMesh_arqjs")
+
+[connection signal="coin_collected" from="Player" to="HUD" method="_on_coin_collected"]
+[connection signal="reached_goal" from="Player" to="HUD" method="_on_player_reached_goal"]
+[connection signal="pressed" from="HUD/Control/PlayAgainButton" to="HUD" method="_on_play_again_button_pressed"]

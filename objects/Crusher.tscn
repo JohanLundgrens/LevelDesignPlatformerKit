@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=3 uid="uid://d1p2gvrglw6ur"]
+
+[ext_resource type="PackedScene" uid="uid://dpo3dr26b06w3" path="res://objects/spike_block_wide.tscn" id="1_t7c2y"]
+[ext_resource type="PackedScene" uid="uid://bunxb353h3lje" path="res://objects/damage_dealer_area_3d.tscn" id="2_jpd4k"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_mbt2d"]
+size = Vector3(2.5, 0.665527, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_0t5b0"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="spike-block-wide" parent="." instance=ExtResource("1_t7c2y")]
+
+[node name="spike-block-wide2" parent="." instance=ExtResource("1_t7c2y")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.461163, 0)
+
+[node name="spike-block-wide3" parent="." instance=ExtResource("1_t7c2y")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.919754, 0)
+
+[node name="DamageDealerArea3D" parent="." instance=ExtResource("2_jpd4k")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+
+[node name="CollisionShape3D" parent="DamageDealerArea3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 2.16364, 0, 0, 0, 1, 0, -0.355661, 0)
+shape = SubResource("BoxShape3D_mbt2d")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 3, 0, 0.0400206, -1.74932)
+mesh = SubResource("BoxMesh_0t5b0")
+
+[editable path="DamageDealerArea3D"]
