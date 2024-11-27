@@ -1,6 +1,7 @@
-[gd_scene load_steps=28 format=3 uid="uid://2gdg7wj1syv4"]
+[gd_scene load_steps=31 format=3 uid="uid://2gdg7wj1syv4"]
 
 [ext_resource type="Environment" uid="uid://bqnqgflivjvue" path="res://scenes/main-environment.tres" id="1_72e4o"]
+[ext_resource type="Script" path="res://scenes/gym_scene.gd" id="1_b31n2"]
 [ext_resource type="PackedScene" uid="uid://dl2ed4gkybggf" path="res://objects/player.tscn" id="2_julub"]
 [ext_resource type="Script" path="res://scripts/view.gd" id="3_qs1q4"]
 [ext_resource type="PackedScene" uid="uid://bpharv43ulngb" path="res://objects/platform_moving.tscn" id="4_2sy40"]
@@ -10,12 +11,18 @@
 [ext_resource type="PackedScene" uid="uid://dvva4xivfg0e3" path="res://objects/ToxicCloud.tscn" id="9_b3dgl"]
 [ext_resource type="PackedScene" uid="uid://cxea8lmw7cy1l" path="res://objects/player_kill_volume.tscn" id="11_gk75s"]
 [ext_resource type="PackedScene" uid="uid://f7y66x8usyt6" path="res://objects/pusher.tscn" id="13_0os3i"]
+[ext_resource type="PackedScene" uid="uid://mmpxoaifvqq8" path="res://objects/enemy.tscn" id="18_36jbx"]
 [ext_resource type="Script" path="res://scripts/hud.gd" id="19_6aoku"]
 [ext_resource type="Texture2D" uid="uid://cd7oyc56ehkx1" path="res://sprites/coin.png" id="20_1naii"]
 [ext_resource type="LabelSettings" uid="uid://daohhjonjrdx8" path="res://themes/label_settings.tres" id="21_5b0ia"]
 [ext_resource type="FontFile" uid="uid://d0cxd77jybrcn" path="res://fonts/lilita_one_regular.ttf" id="22_f6iy1"]
 [ext_resource type="Theme" uid="uid://d3avl0mr4r87l" path="res://themes/default_theme.tres" id="23_triyp"]
 [ext_resource type="Texture2D" uid="uid://dm50aa4qogm65" path="res://sprites/button_rectangle_depth_gloss.png" id="24_ruehc"]
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_1bjes"]
+vertices = PackedVector3Array(-4.75, 5.92747, -25.0891, -4.75, 5.92747, -15.5891, 4.75, 5.92747, -15.5891, 4.75, 5.92747, -25.0891)
+polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1)]
+agent_radius = 0.1
 
 [sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_5kmfn"]
 auto_exposure_scale = 0.75
@@ -79,6 +86,13 @@ shadow_offset = Vector2(2, 2)
 [sub_resource type="BoxMesh" id="BoxMesh_arqjs"]
 
 [node name="Main" type="Node3D"]
+script = ExtResource("1_b31n2")
+
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
+navigation_mesh = SubResource("NavigationMesh_1bjes")
+
+[node name="platform-large7" parent="NavigationRegion3D" instance=ExtResource("5_8rnni")]
+transform = Transform3D(2, 0, 0, 0, -10, -3.01992e-07, 0, 1.50996e-06, -2, 0, 5.42747, -20.3391)
 
 [node name="Environment" type="WorldEnvironment" parent="."]
 unique_name_in_owner = true
@@ -86,7 +100,7 @@ environment = ExtResource("1_72e4o")
 camera_attributes = SubResource("CameraAttributesPractical_5kmfn")
 
 [node name="Player" parent="." node_paths=PackedStringArray("view") instance=ExtResource("2_julub")]
-transform = Transform3D(-0.436802, 0, -0.899558, 0, 1, 0, 0.899558, 0, -0.436802, 0, 1.86931, 0.129732)
+transform = Transform3D(-0.436802, 0, -0.899558, 0, 1, 0, 0.899558, 0, -0.436802, 0, 4.15076, -10.4103)
 view = NodePath("../View")
 
 [node name="View" type="Node3D" parent="." node_paths=PackedStringArray("target") groups=["View"]]
@@ -116,9 +130,6 @@ transform = Transform3D(1, 0, 0, 0, 10, 0, 0, 0, 1, 0, -4, -5)
 [node name="platform-large6" parent="World/Platforms" instance=ExtResource("5_8rnni")]
 transform = Transform3D(1, 0, 0, 0, 10, 0, 0, 0, 1, 0, -3, -10)
 
-[node name="platform-large7" parent="World/Platforms" instance=ExtResource("5_8rnni")]
-transform = Transform3D(1, 0, 0, 0, 10, 0, 0, 0, 1, 0, 0.326671, -18.8713)
-
 [node name="platform-large11" parent="World/Platforms" instance=ExtResource("5_8rnni")]
 transform = Transform3D(1, 0, 0, 0, 10, 0, 0, 0, 1, -19.8007, -3, -10.709)
 
@@ -126,16 +137,16 @@ transform = Transform3D(1, 0, 0, 0, 10, 0, 0, 0, 1, -19.8007, -3, -10.709)
 transform = Transform3D(1, 0, 0, 0, 10, 0, 0, 0, 1, -19.8007, -7.81854, -10.709)
 
 [node name="platform-large8" parent="World/Platforms" instance=ExtResource("5_8rnni")]
-transform = Transform3D(0.463582, 0, -0.187328, 0, 2, 0, 0.187328, 0, 0.463582, -6.33958, 4.32667, -19.7702)
+transform = Transform3D(0.496463, 0, 0.0593662, 0, 2, 0, -0.0593662, 0, 0.496463, -9.48235, 4.32667, -20.6173)
 
 [node name="platform-large13" parent="World/Platforms" instance=ExtResource("5_8rnni")]
-transform = Transform3D(0.439217, 0, 0.238932, 0, 2, 0, -0.238932, 0, 0.439217, -16.5422, 4.32667, -18.109)
+transform = Transform3D(0.269621, 0, 0.421076, 0, 2, 0, -0.421076, 0, 0.269621, -17.6202, 4.32667, -14.2433)
 
 [node name="platform-large10" parent="World/Platforms" instance=ExtResource("5_8rnni")]
 transform = Transform3D(0.5, 0, 0, 0, 2, 0, 0, 0, 0.5, 0, 2.82667, -21.5309)
 
 [node name="platform-large9" parent="World/Platforms" instance=ExtResource("5_8rnni")]
-transform = Transform3D(0.489351, 0, 0.102641, 0, 2, 0, -0.102641, 0, 0.489351, -11.2882, 4.32667, -19.9902)
+transform = Transform3D(0.379249, 0, 0.325837, 0, 2, 0, -0.325837, 0, 0.379249, -13.924, 4.32667, -18.4243)
 
 [node name="platform-large2" parent="World/Platforms" instance=ExtResource("5_8rnni")]
 transform = Transform3D(1, 0, 0, 0, 10, 0, 0, 0, 1, -15, -5, 0)
@@ -150,7 +161,7 @@ transform = Transform3D(2, 0, 0, 0, 10, 0, 0, 0, 1, -30.2519, -5.02371, 0)
 transform = Transform3D(2, 0, 0, 0, 10, 0, 0, 0, 1, -30, 3.09591, 0)
 
 [node name="Node3D" parent="World/Platforms" instance=ExtResource("9_b3dgl")]
-transform = Transform3D(0.5, 0, 0, 0, 10, 0, 0, 0, 0.5, -19.4356, 0.552548, -10.748)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.4356, 5.11718, -5.00222)
 
 [node name="Scripts" type="Node" parent="World"]
 
@@ -320,6 +331,9 @@ mesh = SubResource("BoxMesh_arqjs")
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
 transform = Transform3D(9.28075, 0, 0, 0, 4, 0, 0, 0, 1, -29.9848, 1.18804, -1.85511)
 mesh = SubResource("BoxMesh_arqjs")
+
+[node name="Enemy" parent="." instance=ExtResource("18_36jbx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.25755, 5.42747, -20.459)
 
 [connection signal="coin_collected" from="Player" to="HUD" method="_on_coin_collected"]
 [connection signal="reached_goal" from="Player" to="HUD" method="_on_player_reached_goal"]
